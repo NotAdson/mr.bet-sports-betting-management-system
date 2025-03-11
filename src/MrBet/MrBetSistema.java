@@ -29,9 +29,9 @@ public class MrBetSistema {
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
 	public void cadastraTime(String id, String nome, String mascote) {
-		validaSeNulo(id, "CÓDIGO DO TIME NULO!");
-		validaSeNulo(nome, "NOME DO TIME NULO!");
-		validaSeNulo(mascote, "MASCOTE DO TIME NULO!");
+		verificaSeVazio(id, "CÓDIGO DO TIME");
+		verificaSeVazio(nome, "NOME DO TIME");
+		verificaSeVazio(mascote, "MASCOTE DO TIME");
 
 		if(times.containsKey(id)) {
 			throw new IllegalArgumentException("TIME JÁ EXISTE!");
@@ -49,8 +49,8 @@ public class MrBetSistema {
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
 	public void cadastraCampeonato(String nome, Integer qntdParticipantes) {
-		validaSeNulo(nome, "NOME DO CAMPEONATO NULO!");
-		validaSeNulo(qntdParticipantes, "QUANTIDADE DE PARTICIPANTES NULO!");
+		verificaSeVazio(nome, "NOME DO CAMPEONATO");
+		verificaSeVazio(qntdParticipantes, "QUANTIDADE DE PARTICIPANTES");
 
 		String nomeLower = nome.toLowerCase();
 		if (campeonatos.containsKey(nomeLower)) {
@@ -72,8 +72,8 @@ public class MrBetSistema {
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
 	public void adicionaTimeNoCampeonato(String idTime, String nomeCampeonato) {
-		validaSeNulo(idTime, "CÓDIGO DO TIME NULO!");
-		validaSeNulo(nomeCampeonato, "NOME DO CAMPEONATO NULO!");
+		verificaSeVazio(idTime, "CÓDIGO DO TIME");
+		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
 		validaTime(idTime);
 		validaCampeonato(nomeCampeonato);
 
@@ -97,8 +97,8 @@ public class MrBetSistema {
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
 	public boolean verificaTimeEmCampeonato(String idTime, String nomeCampeonato) {
-		validaSeNulo(idTime, "CÓDIGO DO TIME NULO!");
-		validaSeNulo(nomeCampeonato, "NOME DO CAMPEONATO NULO!");
+		verificaSeVazio(idTime, "CÓDIGO DO TIME");
+		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
 		validaTime(idTime);
 		validaCampeonato(nomeCampeonato);
 
@@ -135,7 +135,7 @@ public class MrBetSistema {
 	* @throws NullPointerException Se o código for nulo.
 	*/
 	public String getTime(String codigo){
-		validaSeNulo(codigo, "CÓDIGO DO TIME NULO!");
+		verificaSeVazio(codigo, "CÓDIGO DO TIME");
 		validaTime(codigo);
 		return times.get(codigo).toString();
 	}
@@ -151,10 +151,10 @@ public class MrBetSistema {
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
 	public void apostar(String codigo, String nomeCampeonato, Integer colocacao, Double valorAposta) {
-		validaSeNulo(codigo, "CÓDIGO DO TIME NULO!");
-		validaSeNulo(nomeCampeonato, "NOME DO CAMPEONATO NULO!");
-		validaSeNulo(colocacao, "COLOCAÇÃO DO TIME NULA!");
-		validaSeNulo(valorAposta, "VALOR DA APOSTA NULA!");
+		verificaSeVazio(codigo, "CÓDIGO DO TIME");
+		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
+		verificaSeVazio(colocacao, "COLOCAÇÃO DO TIME");
+		verificaSeVazio(valorAposta, "VALOR DA APOSTA");
 		
 		Integer maxParticipantes = this.campeonatos.get(nomeCampeonato).getMaxParticipantes();
 		if(!this.campeonatos.containsKey(nomeCampeonato.toLowerCase()) || 0 >= colocacao || colocacao > maxParticipantes) {
@@ -194,8 +194,8 @@ public class MrBetSistema {
 	* @throws NullPointerException Se o código for nulo.
 	*/
 	public String getCampeonatosDoTime(String codigo){
-		validaSeNulo(codigo, "CÓDIGO DO TIME NULO!");
-		validaTime(codigo);	
+		verificaSeVazio(codigo, "CÓDIGO DO TIME");
+		validaTime(codigo);
 
 		StringBuilder resultado = new StringBuilder();
 		Time time = this.times.get(codigo);
@@ -271,9 +271,17 @@ public class MrBetSistema {
 		}
 	}
 
-	private void validaSeNulo(Object argumento, String mensagem){
+	private void verificaSeVazio(Object argumento, String mensagem){
 		if(argumento == null){
-			throw new NullPointerException(mensagem);
+			throw new NullPointerException(mensagem + " NULO!");
+		}
+		
+		if(argumento instanceof String) {
+			String str = (String) argumento;
+			
+			if(str.isBlank()) {
+				throw new IllegalArgumentException(mensagem + " VAZIO!");	
+			}
 		}
 	}
 }

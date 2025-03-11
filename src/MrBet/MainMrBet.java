@@ -9,7 +9,7 @@ class MainMrBet {
 		MainMrBet main = new MainMrBet();
 
 		while (true) {
-			System.out.println("(M)Minha inclusão de times\n(R)Recuperar time\n(.)Adicionar campeonato\n(B)Bora incluir time em campeonato e Verificar se time está em campeonato\n(E)Exibir campeonatos que o time participa\n(T)Tentar a sorte e status\n(!)Já pode fechar o programa!");
+			System.out.println("(M)Minha inclusão de times\n(R)Recuperar time\n(.)Adicionar campeonato\n(B)Bora incluir time em campeonato e Verificar se time está em campeonato\n(E)Exibir campeonatos que o time participa\n(T)Tentar a sorte e status\n(H)Exibir histórico\n(!)Já pode fechar o programa!");
 			System.out.print("Opção> ");
 			String opcao = scanner.nextLine().toUpperCase();
 
@@ -57,6 +57,9 @@ class MainMrBet {
 				} else if ("s".equals(opcaoT)) {
 					statusDasApostas(sistema);
 				}
+				break;
+			case "H":
+				historico(sistema);
 				break;
 			default:
 				System.out.println("Opção inválida!");
@@ -177,6 +180,14 @@ class MainMrBet {
 	private static void statusDasApostas(MrBetSistema sistema) {
 		try {
 			System.out.println(sistema.listarApostas());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private static void historico(MrBetSistema sistema){
+		try {
+			System.out.println(sistema.getHistorico());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

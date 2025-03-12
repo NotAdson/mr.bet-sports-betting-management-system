@@ -58,7 +58,7 @@ public class Aposta {
 		}
 		if (argumento instanceof String) {
 			String str = (String) argumento;
-			if (str.isBlank()) {
+			if (str.isBlank()){
 				throw new IllegalArgumentException(mensagem);
 			}
 		}

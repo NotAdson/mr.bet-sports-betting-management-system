@@ -139,6 +139,21 @@ public class MrBetSistema {
 		validaTime(codigo);
 		return times.get(codigo).toString();
 	}
+	
+	/**
+	* Retorna uma representação em string de um campeonato.
+	*
+	* @param nomeCampeonato O nome do campeonato
+	* @return Uma string formatada com as informações do campeonato
+	* @throws IllegalArgumentException Se o campeonato não existir ou o nome for vazio.
+	* @throws NullPointerException Se o nome for nulo.
+	*/
+	public String getCampeonato(String nomeCampeonato) {
+		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
+		validaCampeonato(nomeCampeonato);
+		
+		return this.campeonatos.get(nomeCampeonato.toLowerCase()).toString();
+	}
 
 	/**
 	* Realiza uma aposta em um time para um campeonato.
@@ -156,8 +171,7 @@ public class MrBetSistema {
 		verificaSeVazio(colocacao, "COLOCAÇÃO DO TIME");
 		verificaSeVazio(valorAposta, "VALOR DA APOSTA");
 		
-		Integer maxParticipantes = this.campeonatos.get(nomeCampeonato).getMaxParticipantes();
-		if(!this.campeonatos.containsKey(nomeCampeonato.toLowerCase()) || 0 >= colocacao || colocacao > maxParticipantes) {
+		if(!this.campeonatos.containsKey(nomeCampeonato.toLowerCase()) || !this.times.containsKey(codigo) || 0 >= colocacao || colocacao > this.campeonatos.get(nomeCampeonato.toLowerCase()).getMaxParticipantes()) {
 			throw new IllegalArgumentException("APOSTA NÃO REGISTADA!");
 		}
 
@@ -179,6 +193,7 @@ public class MrBetSistema {
 
 			resultado.append(index++).append(". ").append(atualTime.toString()).append("\n");
 			resultado.append(atualCampeonato.getNome()).append("\n");
+			resultado.append(atualAposta.getColocacao()).append("/").append(atualCampeonato.getMaxParticipantes()).append("\n");
 			resultado.append("R$ ").append(atualAposta.getValor()).append("\n");
 		}
 
@@ -203,7 +218,7 @@ public class MrBetSistema {
 
 		resultado.append("Campeonatos do ").append(time.getNome()).append(":\n");
 		for(String chave: chavesCampeonatos){
-			Campeonato atual = this.campeonatos.get(chave);
+			Campeonato atual = this.campeonatos.get(chave.toLowerCase());
 			resultado.append("* ").append(atual.toString()).append("\n");
 		}
 

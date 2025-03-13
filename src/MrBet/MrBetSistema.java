@@ -25,8 +25,8 @@ public class MrBetSistema {
 	* @param id     O código único do time.
 	* @param nome   O nome do time.
 	* @param mascote O mascote do time.
-	* @throws IllegalArgumentException Se o código do time já existir no sistema.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
+	* @return Uma String "TIME JÁ EXISTE!" ou "INCLUSÃO REALIZADA!"
 	*/
 	public String cadastraTime(String id, String nome, String mascote) {
 		verificaSeVazio(id, "CÓDIGO DO TIME");
@@ -46,8 +46,8 @@ public class MrBetSistema {
 	*
 	* @param nome             O nome do campeonato.
 	* @param qntdParticipantes A quantidade máxima de participantes no campeonato.
-	* @throws IllegalArgumentException Se o nome do campeonato já existir no sistema.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
+	* @return Uma String com "CAMPEONATO JÁ EXISTE!" ou "CAMPEONATO JÁ EXISTE!"
 	*/
 	public String cadastraCampeonato(String nome, Integer qntdParticipantes) {
 		verificaSeVazio(nome, "NOME DO CAMPEONATO");
@@ -67,8 +67,9 @@ public class MrBetSistema {
 	*
 	* @param idTime         O código do time a ser adicionado.
 	* @param nomeCampeonato O nome do campeonato.
-	* @throws IllegalArgumentException Se o time ou campeonato não existirem, ou se o campeonato já estiver cheio.
+	* @throws IllegalArgumentException Se o time ou campeonato não existirem.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
+	* @return Uma String com "TIME INCLUÍDO NO CAMPEONATO!" ou uma mensagem de erro
 	*/
 	public String adicionaTimeNoCampeonato(String idTime, String nomeCampeonato) {
 		verificaSeVazio(idTime, "CÓDIGO DO TIME");
@@ -93,7 +94,7 @@ public class MrBetSistema {
 	*
 	* @param idTime         O código do time.
 	* @param nomeCampeonato O nome do campeonato.
-	* @return true se o time estiver no campeonato, false caso contrário.
+	* @return Uma String com o status da execução
 	* @throws IllegalArgumentException Se o time ou campeonato não existirem.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
@@ -170,6 +171,7 @@ public class MrBetSistema {
 	* @param valorAposta   O valor da aposta.
 	* @throws IllegalArgumentException Se o campeonato não existir ou a colocação for inválida.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
+	* @return Uma String com "APOSTA NÃO REGISTADA!" ou "APOSTA REGISTRADA!"
 	*/
 	public String apostar(String codigo, String nomeCampeonato, Integer colocacao, Double valorAposta) {
 		verificaSeVazio(codigo, "CÓDIGO DO TIME");

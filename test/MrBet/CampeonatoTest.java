@@ -142,14 +142,14 @@ class CampeonatoTest {
 	@Test
 	void testEqualsObjetosIguais() {
 		Campeonato campeonato1 = new Campeonato("Campeonato A", 10);
-		Campeonato campeonato2 = new Campeonato("Campeonato A", 5); // Nomes iguais, mas outras propriedades diferentes
+		Campeonato campeonato2 = new Campeonato("Campeonato A", 5);
 		assertTrue(campeonato1.equals(campeonato2));
 	}
 
 	@Test
 	void testEqualsObjetosDiferentes() {
 		Campeonato campeonato1 = new Campeonato("Campeonato A", 10);
-		Campeonato campeonato2 = new Campeonato("Campeonato B", 10); // Nomes diferentes
+		Campeonato campeonato2 = new Campeonato("Campeonato B", 10);
 		assertFalse(campeonato1.equals(campeonato2));
 	}
 

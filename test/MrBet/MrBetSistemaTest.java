@@ -312,8 +312,7 @@ class SistemaMrBetTest {
 		sistema.adicionaTimeNoCampeonato("250_PB", "Brasileirão Série A 2023");
 
 		String resultado = sistema.getCampeonatosDoTime("250_PB");
-		assertTrue(resultado.contains("Campeonatos do Nacional de Patos:"));
-		assertTrue(resultado.contains("* Brasileirão Série A 2023 - 1/20"));
+		assertEquals("Campeonatos do Nacional de Patos:\n* Brasileirão Série A 2023 - 1/20", resultado);
 	}
 
 	@Test

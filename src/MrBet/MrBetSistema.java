@@ -79,9 +79,6 @@ public class MrBetSistema {
 
 		String nomeLower = nomeCampeonato.toLowerCase();
 		Campeonato campeonato = campeonatos.get(nomeLower);
-		if(campeonato.getParticipantes().size() >= campeonato.getMaxParticipantes()){
-			throw new IllegalArgumentException("TODOS OS TIMES DESSE CAMPEONATO JÁ FORAM INCLUÍDOS!");
-		}
 
 		campeonato.adicionaTime(idTime);
 		times.get(idTime).adicionaCampeonato(nomeCampeonato);
@@ -137,6 +134,7 @@ public class MrBetSistema {
 	public String getTime(String codigo){
 		verificaSeVazio(codigo, "CÓDIGO DO TIME");
 		validaTime(codigo);
+
 		return times.get(codigo).toString();
 	}
 	
@@ -216,10 +214,10 @@ public class MrBetSistema {
 		Time time = this.times.get(codigo);
 		String[] chavesCampeonatos = time.getCampeonatosParticipando();
 
-		resultado.append("Campeonatos do ").append(time.getNome()).append(":\n");
+		resultado.append("Campeonatos do ").append(time.getNome()).append(":");
 		for(String chave: chavesCampeonatos){
 			Campeonato atual = this.campeonatos.get(chave.toLowerCase());
-			resultado.append("* ").append(atual.toString()).append("\n");
+			resultado.append("\n* ").append(atual.toString());
 		}
 
 		return resultado.toString();

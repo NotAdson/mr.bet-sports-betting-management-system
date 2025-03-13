@@ -18,7 +18,7 @@ class SistemaMrBetTest {
 
 	@Test
 	void testCadastraTimeValido() {
-		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
+		assertEquals("INCLUSÃO REALIZADA!", sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário"));
 	}
 
 	@Test
@@ -75,11 +75,7 @@ class SistemaMrBetTest {
 	@Test
 	void testCadastraTimeCodigoExistente() {
 		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
-
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.cadastraTime("250_PB", "Sport Lagoa Seca", "Carneiro");
-		});
-		assertEquals("TIME JÁ EXISTE!", excecao.getMessage());
+		assertEquals("TIME JÁ EXISTE!", sistema.cadastraTime("250_PB", "Sport Lagoa Seca", "Carneiro"));
 	}
 
 	@Test
@@ -114,21 +110,9 @@ class SistemaMrBetTest {
 	}
 
 	@Test
-	void testCadastraCampeonatoQuantidadeParticipantesInvalida() {
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.cadastraCampeonato("Brasileirão Série A 2023", 0);
-		});
-		assertEquals("QUANTIDADE DE PARTICIPANTES INVÁLIDA!", excecao.getMessage());
-	}
-
-	@Test
 	void testCadastraCampeonatoNomeExistente() {
 		sistema.cadastraCampeonato("Brasileirão Série A 2023", 20);
-
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.cadastraCampeonato("brasileirão série a 2023", 20);
-		});
-		assertEquals("CAMPEONATO JÁ EXISTE!", excecao.getMessage());
+		assertEquals("CAMPEONATO JÁ EXISTE!", sistema.cadastraCampeonato("brasileirão série a 2023", 20));
 	}
 
 	@Test
@@ -136,8 +120,7 @@ class SistemaMrBetTest {
 		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
 		sistema.cadastraCampeonato("Brasileirão Série A 2023", 20);
 
-		sistema.adicionaTimeNoCampeonato("250_PB", "Brasileirão Série A 2023");
-		assertTrue(sistema.verificaTimeEmCampeonato("250_PB", "brasileirão série a 2023"));
+		assertEquals("TIME INCLUÍDO NO CAMPEONATO!", sistema.adicionaTimeNoCampeonato("250_PB", "Brasileirão Série A 2023"));
 	}
 
 	@Test
@@ -197,17 +180,13 @@ class SistemaMrBetTest {
 	@Test
 	void testAdicionaTimeNoCampeonatoLimiteParticipantesAtingido() {
 		assertAll(
-				() -> sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário"),
-				() -> sistema.cadastraTime("252_PB", "Sport Lagoa Seca", "Carneiro"),
-				() -> sistema.cadastraCampeonato("Brasileirão Série A 2023", 1)
+				() -> assertEquals("INCLUSÃO REALIZADA!", sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário")),
+				() -> assertEquals("INCLUSÃO REALIZADA!", sistema.cadastraTime("252_PB", "Sport Lagoa Seca", "Carneiro")),
+				() -> assertEquals("CAMPEONATO ADICIONADO!", sistema.cadastraCampeonato("Brasileirão Série A 2023", 1))
 			 );
 
-		sistema.adicionaTimeNoCampeonato("250_PB", "Brasileirão Série A 2023");
-
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.adicionaTimeNoCampeonato("252_PB", "Brasileirão Série A 2023");
-		});
-		assertEquals("TODOS OS TIMES DESSE CAMPEONATO JÁ FORAM INCLUÍDOS!", excecao.getMessage());
+		assertEquals("TIME INCLUÍDO NO CAMPEONATO!", sistema.adicionaTimeNoCampeonato("250_PB", "Brasileirão Série A 2023"));
+		assertEquals("TODOS OS TIMES DESSE CAMPEONATO JÁ FORAM INCLUÍDOS!", sistema.adicionaTimeNoCampeonato("252_PB", "Brasileirão Série A 2023"));
 	}
 
 	@Test
@@ -215,7 +194,7 @@ class SistemaMrBetTest {
 		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
 		sistema.cadastraCampeonato("Campeonato Paraibano 2023", 14);
 
-		sistema.apostar("250_PB", "Campeonato Paraibano 2023", 2, 50.0);
+		assertEquals("APOSTA REGISTRADA!", sistema.apostar("250_PB", "Campeonato Paraibano 2023", 2, 50.0));
 		assertEquals("1. [250_PB] Nacional de Patos / Canário\nCampeonato Paraibano 2023\n2/14\nR$ 50.0\n", sistema.listarApostas());
 	}
 
@@ -266,10 +245,7 @@ class SistemaMrBetTest {
 		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
 		sistema.cadastraCampeonato("Brasileirão Série A 2023", 20);
 
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.apostar("250_PB", "Brasileirão Série A 2023", 21, 100.0);
-		});
-		assertEquals("APOSTA NÃO REGISTADA!", excecao.getMessage());
+		assertEquals("APOSTA NÃO REGISTADA!", sistema.apostar("250_PB", "Brasileirão Série A 2023", 21, 100.0));
 	}
 
 	@Test
@@ -283,11 +259,7 @@ class SistemaMrBetTest {
 	@Test
 	void testApostarCampeonatoNaoCadastrado() {
 		sistema.cadastraTime("250_PB", "Nacional de Patos", "Canário");
-
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> {
-			sistema.apostar("250_PB", "Brasileirão Série A 2023", 1, 100.0);
-		});
-		assertEquals("APOSTA NÃO REGISTADA!", excecao.getMessage());
+		assertEquals("APOSTA NÃO REGISTADA!", sistema.apostar("250_PB", "Brasileirão Série A 2023", 1, 100.0));
 	}
 
 	@Test

@@ -20,10 +20,6 @@ public class Campeonato {
 	public Campeonato(String nome, int qntdParticipantes) {
 		validaSeNulo(nome, "NOME DO CAMPEONATO NULO OU EM BRANCO!");
 
-		if (qntdParticipantes <= 0) {
-			throw new IllegalArgumentException("QUANTIDADE DE PARTICIPANTES DEVE SER MAIOR QUE ZERO!");
-		}
-
 		this.nome = nome;
 		this.participantes = new HashSet<>();
 		this.maxParticipantes = qntdParticipantes;

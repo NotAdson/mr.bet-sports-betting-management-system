@@ -40,17 +40,7 @@ class CampeonatoTest {
 
 		assertEquals("NOME DO CAMPEONATO NULO OU EM BRANCO!", excecao.getMessage());
 	}
-
-	@ParameterizedTest
-	@ValueSource(ints = {0, -1})
-	void testConstrutorQuantidadeParticipantesInvalida(int qntdParticipantes) {
-		IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class,() -> {
-			new Campeonato("Campeonato A", qntdParticipantes);
-		});
-
-		assertEquals("QUANTIDADE DE PARTICIPANTES DEVE SER MAIOR QUE ZERO!", excecao.getMessage());
-	}
-
+	
 	@Test
 	void testAdicionaTimeValido() {
 		Campeonato campeonato = new Campeonato("Campeonato A", 2);

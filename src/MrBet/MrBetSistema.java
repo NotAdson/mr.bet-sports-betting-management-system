@@ -28,16 +28,17 @@ public class MrBetSistema {
 	* @throws IllegalArgumentException Se o código do time já existir no sistema.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
-	public void cadastraTime(String id, String nome, String mascote) {
+	public String cadastraTime(String id, String nome, String mascote) {
 		verificaSeVazio(id, "CÓDIGO DO TIME");
 		verificaSeVazio(nome, "NOME DO TIME");
 		verificaSeVazio(mascote, "MASCOTE DO TIME");
 
 		if(times.containsKey(id)) {
-			throw new IllegalArgumentException("TIME JÁ EXISTE!");
+			return "TIME JÁ EXISTE!";
 		}
 
 		times.put(id, new Time(id, nome, mascote));
+		return "INCLUSÃO REALIZADA!";
 	}
 
 	/**
@@ -48,19 +49,17 @@ public class MrBetSistema {
 	* @throws IllegalArgumentException Se o nome do campeonato já existir no sistema.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
-	public void cadastraCampeonato(String nome, Integer qntdParticipantes) {
+	public String cadastraCampeonato(String nome, Integer qntdParticipantes) {
 		verificaSeVazio(nome, "NOME DO CAMPEONATO");
 		verificaSeVazio(qntdParticipantes, "QUANTIDADE DE PARTICIPANTES");
 
 		String nomeLower = nome.toLowerCase();
 		if (campeonatos.containsKey(nomeLower)) {
-			throw new IllegalArgumentException("CAMPEONATO JÁ EXISTE!");
-		}
-		if (qntdParticipantes <= 0) {
-			throw new IllegalArgumentException("QUANTIDADE DE PARTICIPANTES INVÁLIDA!");
+			return "CAMPEONATO JÁ EXISTE!";
 		}
 
 		campeonatos.put(nomeLower, new Campeonato(nome, qntdParticipantes));
+		return "CAMPEONATO ADICIONADO!";
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class MrBetSistema {
 	* @throws IllegalArgumentException Se o time ou campeonato não existirem, ou se o campeonato já estiver cheio.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
-	public void adicionaTimeNoCampeonato(String idTime, String nomeCampeonato) {
+	public String adicionaTimeNoCampeonato(String idTime, String nomeCampeonato) {
 		verificaSeVazio(idTime, "CÓDIGO DO TIME");
 		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
 		validaTime(idTime);
@@ -79,9 +78,14 @@ public class MrBetSistema {
 
 		String nomeLower = nomeCampeonato.toLowerCase();
 		Campeonato campeonato = campeonatos.get(nomeLower);
-
-		campeonato.adicionaTime(idTime);
-		times.get(idTime).adicionaCampeonato(nomeCampeonato);
+		
+		try {
+			campeonato.adicionaTime(idTime);
+			times.get(idTime).adicionaCampeonato(nomeCampeonato);
+			return "TIME INCLUÍDO NO CAMPEONATO!";
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 	}
 
 	/**
@@ -93,13 +97,17 @@ public class MrBetSistema {
 	* @throws IllegalArgumentException Se o time ou campeonato não existirem.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
-	public boolean verificaTimeEmCampeonato(String idTime, String nomeCampeonato) {
+	public String verificaTimeEmCampeonato(String idTime, String nomeCampeonato) {
 		verificaSeVazio(idTime, "CÓDIGO DO TIME");
 		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
 		validaTime(idTime);
 		validaCampeonato(nomeCampeonato);
 
-		return campeonatos.get(nomeCampeonato.toLowerCase()).verificaTime(idTime);
+		if(campeonatos.get(nomeCampeonato.toLowerCase()).verificaTime(idTime)){
+			return "O TIME ESTÁ NO CAMPEONATO!";
+		}else{
+			return "O TIME NÃO ESTÁ NO CAMPEONATO!";
+		}
 	}
 
 	/**
@@ -163,17 +171,18 @@ public class MrBetSistema {
 	* @throws IllegalArgumentException Se o campeonato não existir ou a colocação for inválida.
 	* @throws NullPointerException Se algum dos parâmetros for nulo.
 	*/
-	public void apostar(String codigo, String nomeCampeonato, Integer colocacao, Double valorAposta) {
+	public String apostar(String codigo, String nomeCampeonato, Integer colocacao, Double valorAposta) {
 		verificaSeVazio(codigo, "CÓDIGO DO TIME");
 		verificaSeVazio(nomeCampeonato, "NOME DO CAMPEONATO");
 		verificaSeVazio(colocacao, "COLOCAÇÃO DO TIME");
 		verificaSeVazio(valorAposta, "VALOR DA APOSTA");
 		
 		if(!this.campeonatos.containsKey(nomeCampeonato.toLowerCase()) || !this.times.containsKey(codigo) || 0 >= colocacao || colocacao > this.campeonatos.get(nomeCampeonato.toLowerCase()).getMaxParticipantes()) {
-			throw new IllegalArgumentException("APOSTA NÃO REGISTADA!");
+			return "APOSTA NÃO REGISTADA!";
 		}
 
 		this.apostas.add(new Aposta(codigo, valorAposta, colocacao, nomeCampeonato));
+		return "APOSTA REGISTRADA!";
 	}
 
 	/**

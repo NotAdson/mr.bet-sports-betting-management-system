@@ -1,4 +1,4 @@
-package MrBet;
+package mrbet;
 
 /**
  * Representa uma aposta feita em um time para um campeonato.

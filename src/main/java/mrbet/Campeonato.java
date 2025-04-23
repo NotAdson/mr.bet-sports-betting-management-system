@@ -1,4 +1,4 @@
-package MrBet;
+package mrbet;
 
 import java.util.HashSet;
 
